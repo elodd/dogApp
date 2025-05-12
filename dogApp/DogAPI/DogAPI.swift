@@ -39,7 +39,7 @@ class DogAPI {
         }
         required init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            message = try container.decodeIfPresent(String.self, forKey: .message)
+            message = try container.decode(String.self, forKey: .message)
             status = try container.decode(String.self, forKey: .status)
         }
     }
@@ -66,12 +66,13 @@ class DogAPI {
             }
         }
     }
-
-    func fetchRandomImage(breed: String, completion: @escaping (Result<URL, Error>) -> Void) {
+    
+    func fetchRandomImageURL(breed: String, completion: @escaping (Result<URL, Error>) -> Void) {
         let urlString = "https://dog.ceo/api/breed/\(breed)/images/random"
         guard let url = URL(string: urlString) else {
             return completion(.failure(DogError.invalidURL))
         }
+        print("URL: \(url)")
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         let session = URLSession(configuration: config)
@@ -83,14 +84,11 @@ class DogAPI {
             }
             do {
                 let dogList = try JSONDecoder().decode(RandomImage.self, from: data)
-                guard let message = dogList.message else {
+                guard let string = dogList.message else {
                     return completion(.failure(DogError.decodingError))
                 }
-                let string = String(describing: message.first)
+                print("String: \(string)")
                 guard let url = URL(string: string) else {
-                    return completion(.failure(DogError.unknownError))
-                }
-                guard dogList.status != "success" else {
                     return completion(.failure(DogError.unknownError))
                 }
                 return completion(.success(url))
@@ -99,7 +97,23 @@ class DogAPI {
                 return completion(.failure(DogError.decodingError))
             }
         }
+    }
 
+    func fetchDogImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        let session = URLSession(configuration: config)
+        session.configuration.timeoutIntervalForRequest = 10.0
+        let task = session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                return completion(.failure(error))
+            }
+            guard let data = data else {
+                return completion(.failure(DogError.networkError))
+            }
+            completion(.success(data))
+        }
+        task.resume()
     }
 }
 

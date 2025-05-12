@@ -10,6 +10,7 @@ import UIKit
 class DogListViewController: UITableViewController {
     
     var dogList: DogAPI.DogList?
+    var dogImageViewController = DogImageViewController()
     
     override func viewDidLoad() {
         
@@ -23,7 +24,6 @@ class DogListViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-
         DogAPI.shared.fetchDogList() { result in
             switch result {
             case .failure(let error):
@@ -36,7 +36,7 @@ class DogListViewController: UITableViewController {
             }
         }
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         guard let dogList = dogList,
               let message = dogList.message else {
@@ -44,7 +44,7 @@ class DogListViewController: UITableViewController {
         }
         return message.keys.sorted().count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dogList = dogList,
               let message = dogList.message else {
@@ -64,7 +64,7 @@ class DogListViewController: UITableViewController {
         }
         return message.keys.sorted()[section]
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let dogList = dogList,
               let message = dogList.message else {
@@ -77,6 +77,34 @@ class DogListViewController: UITableViewController {
         }
         cell.textLabel?.text = sectionArray[indexPath.row]
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let dogList = dogList,
+              let message = dogList.message else {
+            return
+        }
+        let sectionName = message.keys.sorted()[indexPath.section]
+        guard let sectionArray = message[sectionName] else {
+            return
+        }
+        let selectedDog = sectionArray[indexPath.row]
+        print("Selected dog: \(selectedDog)")
+        showDogImage(breed: selectedDog)
+    }
+    
+    func showDogImage(breed: String) {
+        DogAPI.shared.fetchRandomImageURL(breed: breed) { result in
+            switch result {
+            case .failure(let error):
+                print("Failed to fetch dog image: \(error)")
+            case .success(let url):
+                DispatchQueue.main.async {
+                    self.dogImageViewController.imageUrl = url.absoluteString
+                    self.present(self.dogImageViewController, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
 
