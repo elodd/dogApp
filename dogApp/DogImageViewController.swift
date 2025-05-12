@@ -17,12 +17,13 @@ class DogImageViewController: UIViewController {
         downloadImage()
     }
 
+    // TODO: Correct downloadImage() method
+    // TODO: Add Cancel View button
     func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
             return
         }
-        print("Image URL: \(imageUrl)")
         DogAPI.shared.fetchDogImage(from: imageUrl) { result in
             switch result {
             case .failure(let error):

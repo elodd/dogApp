@@ -98,7 +98,7 @@ class DogAPI {
             }
         }
     }
-
+    
     func fetchDogImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -114,6 +114,11 @@ class DogAPI {
             completion(.success(data))
         }
         task.resume()
+    }
+    
+    // TODO: Add setFavorite function
+    func setFavorite(dog: String) {
+        // Implement your favorite logic here
     }
 }
 
