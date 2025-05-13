@@ -8,7 +8,7 @@ import UIKit
 
 class DogImageViewController: UIViewController {
     var imageUrl: String?
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -16,7 +16,6 @@ class DogImageViewController: UIViewController {
         downloadImage()
     }
 
-    // TODO: Correct assigning the image 
     func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
