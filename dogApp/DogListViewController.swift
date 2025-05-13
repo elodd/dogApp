@@ -54,8 +54,14 @@ class DogListViewController: UITableViewController {
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let sectionName = message.keys.sorted()[indexPath.row]
-        cell.textLabel?.text = sectionName
+        let breedName = message.keys.sorted()[indexPath.row]
+        if message[breedName]?.isEmpty == false,
+           let subBreedName = message[breedName]?[indexPath.section] {
+            cell.textLabel?.text = "\(breedName) - \(subBreedName)"
+        } else {
+            cell.textLabel?.text = breedName
+        }
+
         return cell
     }
     
@@ -69,7 +75,6 @@ class DogListViewController: UITableViewController {
         showDogImage(breed: sectionName)
     }
 
-    // TODO: Correct showDogImage() method
     func showDogImage(breed: String) {
         DogAPI.shared.fetchRandomImageURL(breed: breed) { result in
             switch result {
