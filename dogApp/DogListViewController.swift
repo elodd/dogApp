@@ -38,11 +38,7 @@ class DogListViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        guard let dogList = dogList,
-              let message = dogList.message else {
-            return 0
-        }
-        return message.keys.sorted().count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,32 +46,17 @@ class DogListViewController: UITableViewController {
               let message = dogList.message else {
             return 0
         }
-        let sectionName = message.keys.sorted()[section]
-        guard let sectionArray = message[sectionName] else {
-            return 0
-        }
-        return sectionArray.count
+        return message.keys.count
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let dogList = dogList,
-              let message = dogList.message else {
-            return nil
-        }
-        return message.keys.sorted()[section]
-    }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let dogList = dogList,
               let message = dogList.message else {
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let sectionName = message.keys.sorted()[indexPath.section]
-        guard let sectionArray = message[sectionName] else {
-            return UITableViewCell()
-        }
-        cell.textLabel?.text = sectionArray[indexPath.row]
+        let sectionName = message.keys.sorted()[indexPath.row]
+        cell.textLabel?.text = sectionName
         return cell
     }
     
@@ -84,7 +65,7 @@ class DogListViewController: UITableViewController {
               let message = dogList.message else {
             return
         }
-        let sectionName = message.keys.sorted()[indexPath.section]
+        let sectionName = message.keys.sorted()[indexPath.row]
         print("Selected dog: \(sectionName)")
         showDogImage(breed: sectionName)
     }
@@ -98,7 +79,7 @@ class DogListViewController: UITableViewController {
             case .success(let url):
                 DispatchQueue.main.async {
                     self.dogImageViewController.imageUrl = url.absoluteString
-                    self.present(self.dogImageViewController, animated: true, completion: nil)
+                    self.present(self.dogImageViewController, animated: true)
                 }
             }
         }
