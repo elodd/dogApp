@@ -8,7 +8,7 @@
 import Foundation
 
 extension UserDefaults {
-    func setDogFavorite(breed: String?, value: Bool = false ) {
+    func setFavorite(breed: String?, value: Bool = false) {
         if let breed = breed {
             if value {
                 self.set(true, forKey: breed)
@@ -19,7 +19,7 @@ extension UserDefaults {
         }
     }
 
-    func getDogFavorite(breed: String?) -> Bool {
+    func isFavorite(breed: String?) -> Bool {
         if let breed = breed {
             return self.bool(forKey: breed)
         }
