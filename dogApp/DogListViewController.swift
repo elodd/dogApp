@@ -85,12 +85,8 @@ class DogListViewController: UITableViewController {
             return
         }
         let sectionName = message.keys.sorted()[indexPath.section]
-        guard let sectionArray = message[sectionName] else {
-            return
-        }
-        let selectedDog = sectionArray[indexPath.row]
-        print("Selected dog: \(selectedDog)")
-        showDogImage(breed: selectedDog)
+        print("Selected dog: \(sectionName)")
+        showDogImage(breed: sectionName)
     }
 
     // TODO: Correct showDogImage() method
