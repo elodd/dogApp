@@ -21,7 +21,7 @@ class DogListViewController: UITableViewController {
         super.viewWillAppear(animated)
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.tableView.register(DogCell.self, forCellReuseIdentifier: "cell")
         
         DogAPI.shared.fetchDogList() { result in
             switch result {
@@ -53,10 +53,14 @@ class DogListViewController: UITableViewController {
               let message = dogList.message else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DogCell", for: indexPath) as? DogCell else {
+            return UITableViewCell()
+        }
         let breedName = message.keys.sorted()[indexPath.row]
+        cell.setup(breed: breedName)
         if message[breedName]?.isEmpty == false,
-           let subBreedName = message[breedName]?[indexPath.section] {
+           // TODO: Fix bug for internal elements
+            let subBreedName = message[breedName]?[0] {
             cell.textLabel?.text = "\(breedName) - \(subBreedName)"
         } else {
             cell.textLabel?.text = breedName
