@@ -9,6 +9,25 @@ import Foundation
 
 class DogAPI {
     static let shared = DogAPI()
+    enum DogError: Error {
+        case networkError
+        case decodingError
+        case invalidURL
+        case unknownError
+
+        var localizedDescription: String {
+            switch self {
+            case .networkError:
+                return "Network error occurred."
+            case .decodingError:
+                return "Failed to decode data."
+            case .invalidURL:
+                return "Invalid URL."
+            case .unknownError:
+                return "An unknown error occurred."
+            }
+        }
+    }
     class DogList: Codable {
         var message: Dictionary<String, [String]>?
         var status: String
@@ -43,6 +62,7 @@ class DogAPI {
             status = try container.decode(String.self, forKey: .status)
         }
     }
+
     func fetchDogList(completion: @escaping (Result<DogList, Error>) -> Void) {
         let urlString = "https://dog.ceo/api/breeds/list/all"
         guard let url = URL(string: urlString) else {
@@ -116,10 +136,16 @@ class DogAPI {
         task.resume()
     }
     
-    // TODO: Add setFavorite function
-    func setFavorite(dog: String) {
-        // Implement your favorite logic here
-        // For example, you can save the dog breed to UserDefaults or a database
+    // Implement your favorite logic here
+    // For example, you can save the dog breed to UserDefaults or a database
+    func setFavorite(breedName: String, value: Bool) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.setFavorite(breed: breedName, value: value)
+    }
+
+    func isFavorite(breedName: String) -> Bool {
+        let userDefaults = UserDefaults.standard
+        return userDefaults.isFavorite(breed: breedName)
     }
 }
 

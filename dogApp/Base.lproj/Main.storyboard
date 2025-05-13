@@ -15,6 +15,35 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="DuN-Ul-h4E">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DogCell" id="jVl-CM-Ol7" customClass="DogCell" customModule="dogApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jVl-CM-Ol7" id="JPY-l4-4YY">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0q-Gv-XtH">
+                                            <rect key="frame" x="333" y="4" width="52" height="35"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
+                                            <connections>
+                                                <action selector="dogFavoriteButtonTapped:" destination="jVl-CM-Ol7" eventType="touchDown" id="D8Z-bq-yDN"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="l0q-Gv-XtH" firstAttribute="top" secondItem="JPY-l4-4YY" secondAttribute="top" constant="4" id="Uie-eZ-PKr"/>
+                                        <constraint firstItem="l0q-Gv-XtH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JPY-l4-4YY" secondAttribute="leading" constant="20" symbolic="YES" id="eL7-xu-b7S"/>
+                                        <constraint firstAttribute="bottom" secondItem="l0q-Gv-XtH" secondAttribute="bottom" constant="4.6699999999999999" id="fWI-Ec-7yP"/>
+                                        <constraint firstAttribute="trailing" secondItem="l0q-Gv-XtH" secondAttribute="trailing" constant="8" id="hNx-qq-c8l"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dogFavoriteButton" destination="l0q-Gv-XtH" id="UPS-dK-msV"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="lNA-kW-44c" id="JMc-F1-SWm"/>
@@ -56,6 +85,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
