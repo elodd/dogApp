@@ -92,7 +92,8 @@ class DogListViewController: UITableViewController {
         print("Selected dog: \(selectedDog)")
         showDogImage(breed: selectedDog)
     }
-    
+
+    // TODO: Correct showDogImage() method
     func showDogImage(breed: String) {
         DogAPI.shared.fetchRandomImageURL(breed: breed) { result in
             switch result {
