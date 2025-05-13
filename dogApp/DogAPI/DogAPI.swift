@@ -119,6 +119,7 @@ class DogAPI {
     // TODO: Add setFavorite function
     func setFavorite(dog: String) {
         // Implement your favorite logic here
+        // For example, you can save the dog breed to UserDefaults or a database
     }
 }
 
