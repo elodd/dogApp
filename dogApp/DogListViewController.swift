@@ -10,8 +10,7 @@ import UIKit
 class DogListViewController: UITableViewController {
     
     var dogList: DogAPI.DogList?
-    var dogImageViewController = DogImageViewController()
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -78,8 +77,12 @@ class DogListViewController: UITableViewController {
                 print("Failed to fetch dog image: \(error)")
             case .success(let url):
                 DispatchQueue.main.async {
-                    self.dogImageViewController.imageUrl = url.absoluteString
-                    self.present(self.dogImageViewController, animated: true)
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    guard let dogImageViewController = storyboard.instantiateViewController(withIdentifier: "DogImageViewController") as? DogImageViewController else {
+                        return
+                    }
+                    dogImageViewController.imageUrl = url.absoluteString
+                    self.present(dogImageViewController, animated: true)
                 }
             }
         }

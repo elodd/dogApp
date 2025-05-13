@@ -32,7 +32,7 @@
         <!--Dog Image View Controller-->
         <scene sceneID="g1m-QC-Dhj">
             <objects>
-                <viewController id="8g8-va-ejM" customClass="DogImageViewController" customModule="dogApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DogImageViewController" id="8g8-va-ejM" customClass="DogImageViewController" customModule="dogApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f9c-Dw-4zH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
