@@ -10,15 +10,13 @@ class DogImageViewController: UIViewController {
     var imageUrl: String?
     @IBOutlet var imageView: UIImageView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.view.backgroundColor = .white
-        
         downloadImage()
     }
 
-    // TODO: Correct downloadImage() method
-    // TODO: Add Cancel View button
+    // TODO: Correct assigning the image 
     func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
@@ -33,8 +31,11 @@ class DogImageViewController: UIViewController {
                     print("Image data is nil")
                     return
                 }
+                guard let imageView = self.imageView else {
+                    return
+                }
                 DispatchQueue.main.async {
-                    self.imageView.image = image
+                    imageView.image = image
                 }
             }
         }
