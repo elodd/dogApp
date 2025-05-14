@@ -9,11 +9,11 @@ import Foundation
 
 extension UserDefaults {
     func setFavorite(breed: String?, value: Bool = false) {
-        if let breed = breed {
+        if let name = breed {
             if value {
-                self.set(true, forKey: breed)
+                self.set(true, forKey: name)
             } else {
-                self.set(false, forKey: breed)
+                self.set(false, forKey: name)
             }
             self.synchronize()
         }

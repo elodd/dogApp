@@ -45,6 +45,9 @@ class DogListViewController: UITableViewController {
               let message = dogList.message else {
             return 0
         }
+        // TODO: Fix bug for internal elements
+        // TODO: calculate the number of rows
+//        message.reduce(into: <#T##Result#>, <#T##updateAccumulatingResult: (inout Result, (key: String, value: [String])) throws -> ()##(inout Result, (key: String, value: [String])) throws -> ()##(_ partialResult: inout Result, (key: String, value: [String])) throws -> ()#>)
         return message.keys.count
     }
 
@@ -57,13 +60,14 @@ class DogListViewController: UITableViewController {
             return UITableViewCell()
         }
         let breedName = message.keys.sorted()[indexPath.row]
-        cell.setup(breed: breedName)
         if message[breedName]?.isEmpty == false,
-           // TODO: Fix bug for internal elements
             let subBreedName = message[breedName]?[0] {
-            cell.textLabel?.text = "\(breedName) - \(subBreedName)"
+            let comboName = "\(breedName) \(subBreedName)"
+            cell.textLabel?.text = comboName
+            cell.setup(breed: comboName)
         } else {
             cell.textLabel?.text = breedName
+            cell.setup(breed: breedName)
         }
 
         return cell
