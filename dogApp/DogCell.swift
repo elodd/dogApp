@@ -13,8 +13,7 @@ class DogCell: UITableViewCell {
     var isFavorite: Bool = false
     @IBOutlet weak var dogFavoriteButton: UIButton!
 
-    func setup(breed: String){
-        let breed = textLabel?.text
+    func setup(breed: String) {
         let isFavorite = UserDefaults.standard.isFavorite(breed: breed)
         let imageName = isFavorite ? "star.fill" : "star"
         dogFavoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
@@ -22,9 +21,10 @@ class DogCell: UITableViewCell {
 
     @IBAction func dogFavoriteButtonTapped(_ sender: UIButton) {
         let breed = textLabel?.text
-        isFavorite = UserDefaults.standard.isFavorite(breed: breed)
-        isFavorite.toggle()
-        let imageName = isFavorite ? "star.fill" : "star"
+        self.isFavorite = UserDefaults.standard.isFavorite(breed: breed)
+        self.isFavorite.toggle()
+        let imageName = self.isFavorite ? "star.fill" : "star"
+        UserDefaults.standard.setFavorite(breed: breed, value: self.isFavorite)
         dogFavoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
 }

@@ -20,8 +20,10 @@ extension UserDefaults {
     }
 
     func isFavorite(breed: String?) -> Bool {
-        if let breed = breed {
-            return self.bool(forKey: breed)
+        if let name = breed {
+            let bool = self.bool(forKey: name)
+            print("isFavorite: \(bool) for breed: \(name)")
+            return bool
         }
         return false
     }
