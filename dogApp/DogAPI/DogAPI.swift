@@ -10,6 +10,7 @@ import Foundation
 class DogAPI {
     static let shared = DogAPI()
     enum DogError: Error {
+        case failedToFetchDogList(error: Error)
         case networkError
         case decodingError
         case invalidURL
@@ -17,6 +18,8 @@ class DogAPI {
 
         var localizedDescription: String {
             switch self {
+            case .failedToFetchDogList(let error):
+                return "Failed to fetch dog list: \(error.localizedDescription)"
             case .networkError:
                 return "Network error occurred."
             case .decodingError:
@@ -62,8 +65,8 @@ class DogAPI {
             status = try container.decode(String.self, forKey: .status)
         }
     }
-
-    func fetchDogList(completion: @escaping (Result<DogList, DogError>) -> Void) {
+    
+    private func fetchDogList(completion: @escaping (Result<DogList, DogError>) -> Void) {
         let urlString = "https://dog.ceo/api/breeds/list/all"
         guard let url = URL(string: urlString) else {
             return completion(.failure(DogError.invalidURL))
@@ -125,7 +128,7 @@ class DogAPI {
         let session = URLSession(configuration: config)
         session.configuration.timeoutIntervalForRequest = 10.0
         let task = session.dataTask(with: url) { data, response, error in
-            if let error = error {
+            if let _ = error {
                 return completion(.failure(.networkError))
             }
             guard let data = data else {
@@ -134,6 +137,29 @@ class DogAPI {
             completion(.success(data))
         }
         task.resume()
+    }
+
+    func fetchSortedDogList(completion: @escaping (Result<[String], DogError>) -> Void) {
+        DogAPI.shared.fetchDogList() { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(.failedToFetchDogList(error: error)))
+            case .success(let dogList):
+                guard let message = dogList.message else {
+                    return
+                }
+                let dogList = message.flatMap {
+                    if $0.value.isEmpty {
+                        return [$0.key]
+                    }
+                    let breedName = $0.key
+                    let subBreed = $0.value.compactMap( { $0 })
+                    return subBreed.map { "\(breedName) \($0)" }
+                }.sorted()
+                completion(.success(dogList))
+            }
+        }
+
     }
 }
 

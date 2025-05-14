@@ -21,24 +21,13 @@ class DogListViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(DogCell.self, forCellReuseIdentifier: "cell")
-        
-        DogAPI.shared.fetchDogList() { result in
+        DogAPI.shared.fetchSortedDogList() { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
                 print("Failed to fetch dog list: \(error)")
             case .success(let dogList):
-                guard let message = dogList.message else {
-                    print("Message in dog list is nil")
-                    return
-                }
-                self.dogList = message.flatMap {
-                    if $0.value.isEmpty {
-                        return [$0.key]
-                    }
-                    let breedName = $0.key
-                    let subBreed = $0.value.compactMap( { $0 })
-                    return subBreed.map { "\(breedName) \($0)" }
-                }.sorted()
+                self.dogList = dogList
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
