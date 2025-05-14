@@ -8,8 +8,7 @@
 import UIKit
 
 class DogListViewController: UITableViewController {
-    
-    var dogList: DogAPI.DogList?
+    var dogList: [String]?
 
     override func viewDidLoad() {
         
@@ -28,7 +27,18 @@ class DogListViewController: UITableViewController {
             case .failure(let error):
                 print("Failed to fetch dog list: \(error)")
             case .success(let dogList):
-                self.dogList = dogList
+                guard let message = dogList.message else {
+                    print("Message in dog list is nil")
+                    return
+                }
+                self.dogList = message.flatMap {
+                    if $0.value.isEmpty {
+                        return [$0.key]
+                    }
+                    let breedName = $0.key
+                    let subBreed = $0.value.compactMap( { $0 })
+                    return subBreed.map { "\(breedName) \($0)" }
+                }.sorted()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -41,46 +51,32 @@ class DogListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dogList = dogList,
-              let message = dogList.message else {
+        guard let dogList = dogList else {
             return 0
         }
-        // TODO: Fix bug for internal elements
-        // TODO: calculate the number of rows
-//        message.reduce(into: <#T##Result#>, <#T##updateAccumulatingResult: (inout Result, (key: String, value: [String])) throws -> ()##(inout Result, (key: String, value: [String])) throws -> ()##(_ partialResult: inout Result, (key: String, value: [String])) throws -> ()#>)
-        return message.keys.count
+        return dogList.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let dogList = dogList,
-              let message = dogList.message else {
-            return UITableViewCell()
-        }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DogCell", for: indexPath) as? DogCell else {
             return UITableViewCell()
         }
-        let breedName = message.keys.sorted()[indexPath.row]
-        if message[breedName]?.isEmpty == false,
-            let subBreedName = message[breedName]?[0] {
-            let comboName = "\(breedName) \(subBreedName)"
-            cell.textLabel?.text = comboName
-            cell.setup(breed: comboName)
-        } else {
-            cell.textLabel?.text = breedName
-            cell.setup(breed: breedName)
+        guard let dogList = self.dogList else {
+            return UITableViewCell()
         }
-
+        let comboName = dogList[indexPath.row]
+        cell.textLabel?.text = comboName
+        cell.setup(breed: comboName)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let dogList = dogList,
-              let message = dogList.message else {
+        guard let dogList = self.dogList else {
             return
         }
-        let sectionName = message.keys.sorted()[indexPath.row]
-        print("Selected dog: \(sectionName)")
-        showDogImage(breed: sectionName)
+        let comboName = dogList[indexPath.row]
+        print("Selected dog: \(comboName)")
+        showDogImage(breed: comboName)
     }
 
     func showDogImage(breed: String) {
