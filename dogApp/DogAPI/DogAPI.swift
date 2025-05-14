@@ -148,15 +148,22 @@ class DogAPI {
                 guard let message = dogList.message else {
                     return
                 }
-                let dogList = message.flatMap {
+                let parentBreed = message.flatMap {
+                    if $0.value.isEmpty == false {
+                        return [$0.key]
+                    }
+                    return []
+                }
+                var dogList = message.flatMap {
                     if $0.value.isEmpty {
                         return [$0.key]
                     }
                     let breedName = $0.key
                     let subBreed = $0.value.compactMap( { $0 })
                     return subBreed.map { "\(breedName) \($0)" }
-                }.sorted()
-                completion(.success(dogList))
+                }
+                dogList.append(contentsOf: parentBreed)
+                completion(.success(dogList.sorted()))
             }
         }
 
