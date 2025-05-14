@@ -8,7 +8,7 @@
 import UIKit
 
 class DogListViewController: UITableViewController {
-    var dogList: [String]?
+    private var dogList: [String]?
 
     override func viewDidLoad() {
         
@@ -82,7 +82,7 @@ class DogListViewController: UITableViewController {
         showDogImage(breed: breedName)
     }
 
-    func showDogImage(breed: String) {
+    private func showDogImage(breed: String) {
         DogAPI.shared.fetchRandomImageURL(breed: breed) { result in
             switch result {
             case .failure(let error):

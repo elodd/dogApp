@@ -17,7 +17,7 @@ class DogImageViewController: UIViewController {
         downloadImage()
     }
 
-    func addImageViewConstraints() {
+    private func addImageViewConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -27,7 +27,7 @@ class DogImageViewController: UIViewController {
         ])
     }
 
-    func downloadImage() {
+    private func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
             return

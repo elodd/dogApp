@@ -45,7 +45,7 @@ class DogAPI {
             status = try container.decode(String.self, forKey: .status)
         }
     }
-    class RandomImage: Codable {
+    private class RandomImage: Codable {
         var message: String?
         var status: String
         enum CodingKeys: CodingKey {
@@ -63,7 +63,7 @@ class DogAPI {
         }
     }
 
-    func fetchDogList(completion: @escaping (Result<DogList, Error>) -> Void) {
+    func fetchDogList(completion: @escaping (Result<DogList, DogError>) -> Void) {
         let urlString = "https://dog.ceo/api/breeds/list/all"
         guard let url = URL(string: urlString) else {
             return completion(.failure(DogError.invalidURL))
@@ -87,7 +87,7 @@ class DogAPI {
         }
     }
     
-    func fetchRandomImageURL(breed: String, completion: @escaping (Result<URL, Error>) -> Void) {
+    func fetchRandomImageURL(breed: String, completion: @escaping (Result<URL, DogError>) -> Void) {
         let urlString = "https://dog.ceo/api/breed/\(breed)/images/random"
         guard let url = URL(string: urlString) else {
             return completion(.failure(DogError.invalidURL))
@@ -119,14 +119,14 @@ class DogAPI {
         }
     }
     
-    func fetchDogImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchDogImage(from url: URL, completion: @escaping (Result<Data, DogError>) -> Void) {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         let session = URLSession(configuration: config)
         session.configuration.timeoutIntervalForRequest = 10.0
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                return completion(.failure(error))
+                return completion(.failure(.networkError))
             }
             guard let data = data else {
                 return completion(.failure(DogError.networkError))
@@ -134,18 +134,6 @@ class DogAPI {
             completion(.success(data))
         }
         task.resume()
-    }
-    
-    // Implement your favorite logic here
-    // For example, you can save the dog breed to UserDefaults or a database
-    func setFavorite(breedName: String, value: Bool) {
-        let userDefaults = UserDefaults.standard
-        userDefaults.setFavorite(breed: breedName, value: value)
-    }
-
-    func isFavorite(breedName: String) -> Bool {
-        let userDefaults = UserDefaults.standard
-        return userDefaults.isFavorite(breed: breedName)
     }
 }
 
