@@ -75,8 +75,11 @@ class DogListViewController: UITableViewController {
             return
         }
         let comboName = dogList[indexPath.row]
-        print("Selected dog: \(comboName)")
-        showDogImage(breed: comboName)
+        guard let breedName = comboName.components(separatedBy: " ").first else{
+            return
+        }
+        print("Selected dog: \(breedName)")
+        showDogImage(breed: breedName)
     }
 
     func showDogImage(breed: String) {
