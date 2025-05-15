@@ -8,22 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favorite Images-->
-        <scene sceneID="SFr-3t-E35">
-            <objects>
-                <viewController restorationIdentifier="FavoritesViewController" storyboardIdentifier="FavoritesViewController" id="0nK-vd-EKq" customClass="DogFavoritesImageViewController" customModule="dogApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Hih-DA-cFf">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="L45-x3-I94"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Favorite Images" image="star.square.on.square" catalog="system" id="FjJ-d4-4Gy"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wte-tl-Hjl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-44" y="658"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="gCM-qB-Fiw">
             <objects>
@@ -35,12 +19,46 @@
                     </tabBar>
                     <connections>
                         <segue destination="lNA-kW-44c" kind="relationship" relationship="viewControllers" id="58B-oj-7h3"/>
-                        <segue destination="0nK-vd-EKq" kind="relationship" relationship="viewControllers" id="sMB-bq-Gwd"/>
+                        <segue destination="GsY-Fr-sCj" kind="relationship" relationship="viewControllers" id="qc3-gj-H7w"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dKX-xN-aD2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1108" y="265"/>
+        </scene>
+        <!--Favorite images-->
+        <scene sceneID="LyM-wv-9ud">
+            <objects>
+                <tableViewController id="GsY-Fr-sCj" customClass="DogFavoritesListViewController" customModule="dogApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="kt7-3y-PDm">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier=" cell" id="cPN-mR-6yE">
+                                <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cPN-mR-6yE" id="mPF-Np-rbF">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="GsY-Fr-sCj" id="f12-AP-uCI"/>
+                            <outlet property="delegate" destination="GsY-Fr-sCj" id="6rF-63-Mog"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Favorite images" image="star.square.on.square" catalog="system" id="qiC-X3-umG"/>
+                    <navigationItem key="navigationItem" id="PmL-MC-sAF"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="8g8-va-ejM" kind="show" identifier="ShowImage" id="3KV-Ij-WN5"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6zf-pD-zwc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-78" y="626"/>
         </scene>
         <!--Dog List-->
         <scene sceneID="oL2-Nd-V90">
@@ -51,14 +69,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DogCell" id="jVl-CM-Ol7" customClass="DogCell" customModule="dogApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="393" height="43.333332061767578"/>
+                                <rect key="frame" x="0.0" y="50" width="393" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jVl-CM-Ol7" id="JPY-l4-4YY">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="43.333332061767578"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0q-Gv-XtH">
-                                            <rect key="frame" x="333" y="4" width="52" height="34.666666666666664"/>
+                                            <rect key="frame" x="333" y="4" width="52" height="35.333333333333336"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
                                             <connections>
@@ -106,7 +124,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="yzv-DU-o8J">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                <rect key="frame" x="0.0" y="8" width="393" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="a36-cp-jeb"/>
@@ -139,9 +157,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ZI-aw-a1m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="941" y="-25"/>
+            <point key="canvasLocation" x="941" y="-9"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="3KV-Ij-WN5"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="list.bullet.rectangle" catalog="system" width="128" height="93"/>
         <image name="star" catalog="system" width="128" height="116"/>

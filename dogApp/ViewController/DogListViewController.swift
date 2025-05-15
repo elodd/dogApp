@@ -67,7 +67,6 @@ class DogListViewController: UITableViewController {
         guard let breedName = comboName.components(separatedBy: " ").first else{
             return
         }
-        print("Selected dog: \(breedName)")
         showDogImage(breed: breedName)
     }
 
@@ -83,6 +82,7 @@ class DogListViewController: UITableViewController {
                         return
                     }
                     dogImageViewController.imageUrl = url.absoluteString
+                    dogImageViewController.breedName = breed
                     self.present(dogImageViewController, animated: true)
                 }
             }

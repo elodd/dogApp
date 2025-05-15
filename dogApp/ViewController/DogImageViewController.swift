@@ -5,9 +5,14 @@
 //  Created by eloddobos on 2025-05-12.
 //
 import UIKit
+import SwiftData
 
 class DogImageViewController: UIViewController {
     var imageUrl: String?
+    var breedName: String?
+    var favoriteDogModel: FavoriteDogModel?
+    weak var favoriteDelegate: DogFavoritesListViewControllerDelegate?
+
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
@@ -16,10 +21,14 @@ class DogImageViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.view.backgroundColor = .white
+        let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
+            breedName: breedName
+        )
+        favoriteButton.title = isFavorite ? "Remove favorites" : "Add favorites"
         addImageViewConstraints()
         addToolbarConstraints()
         downloadImage()
-    }
+    }    
     
     private func addImageViewConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +47,7 @@ class DogImageViewController: UIViewController {
             toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
-        
+    
     private func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
@@ -64,11 +73,27 @@ class DogImageViewController: UIViewController {
     }
     
     @IBAction func favoriteButtonTapped() {
-        print("Favorite button tapped")
-        // Read from database
-        // Save to database
+        let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
+            breedName: breedName
+        )
+        FavoriteDogModelManager.shared
+            .setImageFavorite(
+                breedName: breedName,
+                imageUrl: imageUrl,
+                isFavorite: isFavorite
+            )
+        let favorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
+            breedName: breedName
+        )
+        favoriteButton.title = favorite ? "Remove favorites" : "Add favorites"
+        if favorite == false {
+            favoriteDelegate?
+                .didRemoveDogFromFavoritesFromList(
+                    favoriteDog: favoriteDogModel
+                )
+        }
     }
-
+    
     @IBAction func dismissButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }

@@ -95,7 +95,6 @@ class DogAPI {
         guard let url = URL(string: urlString) else {
             return completion(.failure(DogError.invalidURL))
         }
-        print("URL: \(url)")
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         let session = URLSession(configuration: config)
@@ -110,7 +109,6 @@ class DogAPI {
                 guard let string = dogList.message else {
                     return completion(.failure(DogError.decodingError))
                 }
-                print("String: \(string)")
                 guard let url = URL(string: string) else {
                     return completion(.failure(DogError.unknownError))
                 }
