@@ -22,7 +22,6 @@ class DogImageViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.view.backgroundColor = .white
-        FavoriteDogModelManager.shared.initialiseModelContainer()
         let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
             breedName: breedName
         )
