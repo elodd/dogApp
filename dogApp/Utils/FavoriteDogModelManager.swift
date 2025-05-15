@@ -14,10 +14,11 @@ class FavoriteDogModelManager {
     var container: ModelContainer?
     
     private init() {
-        initialiseModelContainer()
+        initializeModelContainer()
     }
     
-    private func initialiseModelContainer() {
+    private func initializeModelContainer() {
+        guard container == nil else { return } // Only initialize once
         do {
             container = try ModelContainer(for: FavoriteDogModel.self)
         } catch {
@@ -100,4 +101,17 @@ class FavoriteDogModelManager {
             print("Error removing image from favorites: \(error)")
         }
     }
+
+    func loadFavoriteImages(completion: @escaping (Result<[FavoriteDogModel], Error>) -> Void) {
+        guard let container = container else { return }
+        do {
+            let descriptor = FetchDescriptor<FavoriteDogModel>()
+            let favoriteDogs = (try container.mainContext.fetch(descriptor))
+            completion(.success(favoriteDogs))
+        } catch {
+            print("Error fetching favorite images: \(error)")
+            completion(.failure(error))
+        }
+    }
+
 }

@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import SwiftData
 
 protocol DogFavoritesListViewControllerDelegate: AnyObject {
     func didRemoveDogFromFavoritesFromList(favoriteDog: FavoriteDogModel?)
@@ -15,39 +14,28 @@ protocol DogFavoritesListViewControllerDelegate: AnyObject {
 
 class DogFavoritesListViewController: UITableViewController {
     
-    var container: ModelContainer?
     var favoriteDogs: [FavoriteDogModel] = []
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFavoriteImages()
+        FavoriteDogModelManager.shared.loadFavoriteImages() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print("Error loading favorites: \(error)")
+            case .success(let favoriteDogs):
+                self.favoriteDogs = favoriteDogs
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initializeModelContainer()
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-    }
-    
-    func initializeModelContainer() {
-        do {
-            container = try ModelContainer(for: FavoriteDogModel.self)
-        } catch {
-            print("Error initializing ModelContainer: \(error)")
-        }
-    }
-    
-    func loadFavoriteImages() {
-        guard let container = container else { return }
-        do {
-            let descriptor = FetchDescriptor<FavoriteDogModel>()
-            self.favoriteDogs = (try container.mainContext.fetch(descriptor))
-            tableView.reloadData()
-        } catch {
-            print("Error fetching favorite images: \(error)")
-        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
