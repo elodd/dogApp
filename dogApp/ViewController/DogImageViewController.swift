@@ -9,14 +9,18 @@ import UIKit
 class DogImageViewController: UIViewController {
     var imageUrl: String?
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
+    @IBOutlet weak var dismissButton: UIBarButtonItem!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.view.backgroundColor = .white
         addImageViewConstraints()
+        addToolbarConstraints()
         downloadImage()
     }
-
+    
     private func addImageViewConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -26,7 +30,15 @@ class DogImageViewController: UIViewController {
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
-
+    
+    private func addToolbarConstraints() {
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+        
     private func downloadImage() {
         guard let imageUrl = imageUrl,
               let imageUrl = URL(string: imageUrl) else {
@@ -49,5 +61,15 @@ class DogImageViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func favoriteButtonTapped() {
+        print("Favorite button tapped")
+        // Read from database
+        // Save to database
+    }
+
+    @IBAction func dismissButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
