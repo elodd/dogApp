@@ -84,7 +84,7 @@ class DogAPI {
                 let dogList = try JSONDecoder().decode(DogList.self, from: data)
                 return completion(.success(dogList))
             } catch {
-                print("Error decoding JSON: \(error)")
+                debugPrint("Error decoding JSON: \(error)")
                 return completion(.failure(DogError.decodingError))
             }
         }
@@ -114,7 +114,7 @@ class DogAPI {
                 }
                 return completion(.success(url))
             } catch {
-                print("Error decoding JSON: \(error)")
+                debugPrint("Error decoding JSON: \(error)")
                 return completion(.failure(DogError.decodingError))
             }
         }

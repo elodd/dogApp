@@ -22,32 +22,32 @@ class FavoriteDogModelManager {
         do {
             container = try ModelContainer(for: FavoriteDogModel.self)
         } catch {
-            print("Error initializing ModelContainer: \(error)")
+            debugPrint("Error initializing ModelContainer: \(error)")
         }
     }
     
     func checkImageIsFavorite(breedName: String?) -> Bool {
         guard let container = container else { return false }
         guard let breedName = breedName else {
-            print("Breed name is nil")
+            debugPrint("Breed name is nil")
             return false
         }
         do {
             let descriptor = FetchDescriptor<FavoriteDogModel>()
             let favorites = (try container.mainContext.fetch(descriptor))
             if favorites.isEmpty {
-                print("No favorite images found.")
+                debugPrint("No favorite images found.")
                 return false
             } else {
                 for favorite in favorites {
                     if breedName == favorite.breedName {
-                        print("Image is already a favorite.")
+                        debugPrint("Image is already a favorite.")
                         return true
                     }
                 }
             }
         } catch {
-            print("Error fetching favorite images: \(error)")
+            debugPrint("Error fetching favorite images: \(error)")
             return false
         }
         return false
@@ -64,41 +64,41 @@ class FavoriteDogModelManager {
     func addImageToFavorites(breedName: String?, imageUrl: String?) {
         guard let container = container else { return }
         guard let breedName = breedName, let imageUrl = imageUrl else {
-            print("Breed name or image URL is nil")
+            debugPrint("Breed name or image URL is nil")
             return
         }
         do {
             let favoriteDog = FavoriteDogModel(breedName: breedName, imageUrl: imageUrl)
             container.mainContext.insert(favoriteDog)
             try container.mainContext.save()
-            print("Added image to favorites")
+            debugPrint("Added image to favorites")
         } catch {
-            print("Error adding image to favorites: \(error)")
+            debugPrint("Error adding image to favorites: \(error)")
         }
     }
     
     func removeImageFromFavorites(breedName: String?, imageUrl: String?) {
         guard let container = container else { return }
         guard let breedName = breedName, let imageUrl = imageUrl else {
-            print("Breed name or image URL is nil")
+            debugPrint("Breed name or image URL is nil")
             return
         }
         do {
             let descriptor = FetchDescriptor<FavoriteDogModel>()
             let favorites = (try container.mainContext.fetch(descriptor))
             if favorites.isEmpty {
-                print("No favorite images found.")
+                debugPrint("No favorite images found.")
             } else {
                 for favorite in favorites {
                     if breedName == favorite.breedName && imageUrl == favorite.imageUrl {
                         container.mainContext.delete(favorite)
                         try container.mainContext.save()
-                        print("Removed image from favorites")
+                        debugPrint("Removed image from favorites")
                     }
                 }
             }
         } catch {
-            print("Error removing image from favorites: \(error)")
+            debugPrint("Error removing image from favorites: \(error)")
         }
     }
 
@@ -109,7 +109,7 @@ class FavoriteDogModelManager {
             let favoriteDogs = (try container.mainContext.fetch(descriptor))
             completion(.success(favoriteDogs))
         } catch {
-            print("Error fetching favorite images: \(error)")
+            debugPrint("Error fetching favorite images: \(error)")
             completion(.failure(error))
         }
     }

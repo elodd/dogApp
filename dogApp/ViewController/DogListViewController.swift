@@ -25,7 +25,7 @@ class DogListViewController: UITableViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                print("Failed to fetch dog list: \(error)")
+                debugPrint("Failed to fetch dog list: \(error)")
             case .success(let dogList):
                 self.dogList = dogList
                 DispatchQueue.main.async {
@@ -74,7 +74,7 @@ class DogListViewController: UITableViewController {
         DogAPI.shared.fetchRandomImageURL(breed: breed) { result in
             switch result {
             case .failure(let error):
-                print("Failed to fetch dog image: \(error)")
+                debugPrint("Failed to fetch dog image: \(error)")
             case .success(let url):
                 DispatchQueue.main.async {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -21,7 +21,7 @@ class DogFavoritesListViewController: UITableViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                print("Error loading favorites: \(error)")
+                debugPrint("Error loading favorites: \(error)")
             case .success(let favoriteDogs):
                 self.favoriteDogs = favoriteDogs
                 DispatchQueue.main.async {

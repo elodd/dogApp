@@ -57,10 +57,10 @@ class DogImageViewController: UIViewController {
         DogAPI.shared.fetchDogImage(from: imageUrl) { result in
             switch result {
             case .failure(let error):
-                print("Failed to fetch dog image: \(error)")
+                debugPrint("Failed to fetch dog image: \(error)")
             case .success(let data):
                 guard let image = UIImage(data: data) else {
-                    print("Image data is nil")
+                    debugPrint("Image data is nil")
                     return
                 }
                 guard let imageView = self.imageView else {
