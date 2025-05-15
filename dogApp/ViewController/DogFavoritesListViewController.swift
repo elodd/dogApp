@@ -17,13 +17,6 @@ class DogFavoritesListViewController: UITableViewController {
     
     var container: ModelContainer?
     var favoriteDogs: [FavoriteDogModel] = []
-    
-    var dogImage: UIImage?
-    var dogBreed: String?
-    
-    @IBOutlet weak var dogImageView: UIImageView!
-    @IBOutlet weak var breedLabel: UILabel!
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadFavoriteImages()
@@ -36,13 +29,6 @@ class DogFavoritesListViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-
-        if let image = dogImage {
-            dogImageView.image = image
-        }
-        if let breed = dogBreed {
-            breedLabel.text = breed
-        }
     }
     
     func initializeModelContainer() {
@@ -79,7 +65,6 @@ class DogFavoritesListViewController: UITableViewController {
         
         let favoriteDog = self.favoriteDogs[indexPath.row]
         cell.textLabel?.text = "Favorite image of a \(favoriteDog.breedName)"
-        //        cell.imageView?.image = AsyncImage(url: favoriteDog.imageUrl)
         return cell
     }
 

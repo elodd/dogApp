@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  FavoriteDogModelManager.swift
 //  dogApp
 //
 //  Created by eloddobos on 2025-05-15.
@@ -9,8 +9,8 @@ import Foundation
 import SwiftData
 
 @MainActor
-class DataManager {
-    static let shared = DataManager()
+class FavoriteDogModelManager {
+    static let shared = FavoriteDogModelManager()
     var container: ModelContainer?
     
     private init() {
@@ -52,7 +52,7 @@ class DataManager {
         return false
     }
     
-    func setImageFavorite(breedName: String?, imageUrl: String?, isFavorite: Bool) throws {
+    func setImageFavorite(breedName: String?, imageUrl: String?, isFavorite: Bool) {
         if isFavorite {
             removeImageFromFavorites(breedName: breedName, imageUrl: imageUrl)
         } else {
