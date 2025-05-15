@@ -124,17 +124,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="yzv-DU-o8J">
-                                <rect key="frame" x="0.0" y="8" width="393" height="44"/>
+                                <rect key="frame" x="0.0" y="52" width="393" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="a36-cp-jeb"/>
                                     <barButtonItem title="Mark favorite" id="nUy-5k-DXk">
                                         <connections>
                                             <action selector="favoriteButtonTapped" destination="8g8-va-ejM" id="Zoc-2q-Bpt"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="MOl-Ky-uz7"/>
-                                    <barButtonItem image="xmark" catalog="system" id="0Yf-WW-IRw">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="anJ-hW-8Wf"/>
+                                    <barButtonItem title="Item" id="vfq-Sb-X3Z" userLabel="Mark favorite"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="MAe-72-J3R"/>
+                                    <barButtonItem image="xmark" catalog="system" id="0Yf-WW-IRw" userLabel="dismiss">
                                         <connections>
                                             <action selector="dismissButtonTapped" destination="8g8-va-ejM" id="soM-Cf-Mye"/>
                                         </connections>
@@ -149,6 +150,7 @@
                     <navigationItem key="navigationItem" id="BOX-de-OIG"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="breedNameLabel" destination="vfq-Sb-X3Z" id="FxC-QB-9uI"/>
                         <outlet property="dismissButton" destination="0Yf-WW-IRw" id="SLc-Jr-cvo"/>
                         <outlet property="favoriteButton" destination="nUy-5k-DXk" id="zxo-hu-3Du"/>
                         <outlet property="imageView" destination="RN6-pT-X2G" id="RM8-pJ-h1N"/>

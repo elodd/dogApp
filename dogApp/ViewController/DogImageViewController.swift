@@ -16,6 +16,7 @@ class DogImageViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
+    @IBOutlet weak var breedNameLabel: UIBarButtonItem!
     @IBOutlet weak var dismissButton: UIBarButtonItem!
     
     override func viewDidAppear(_ animated: Bool) {
@@ -24,6 +25,7 @@ class DogImageViewController: UIViewController {
         let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
             breedName: breedName
         )
+        breedNameLabel.title = breedName
         favoriteButton.title = isFavorite ? "Remove favorites" : "Add favorites"
         addImageViewConstraints()
         addToolbarConstraints()
