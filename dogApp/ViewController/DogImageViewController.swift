@@ -5,6 +5,7 @@
 //  Created by eloddobos on 2025-05-12.
 //
 import UIKit
+import SwiftData
 
 class DogImageViewController: UIViewController {
     var imageUrl: String?
