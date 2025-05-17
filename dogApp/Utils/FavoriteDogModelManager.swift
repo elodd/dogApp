@@ -26,22 +26,19 @@ class FavoriteDogModelManager {
         }
     }
     
-    func checkImageIsFavorite(breedName: String?) -> Bool {
+    func checkImageIsFavorite(breedName: String?, imageUrl: String?) -> Bool {
         guard let container = container else { return false }
-        guard let breedName = breedName else {
-            debugPrint("Breed name is nil")
+        guard let breedName = breedName, let imageUrl = imageUrl else {
             return false
         }
         do {
             let descriptor = FetchDescriptor<FavoriteDogModel>()
             let favorites = (try container.mainContext.fetch(descriptor))
             if favorites.isEmpty {
-                debugPrint("No favorite images found.")
                 return false
             } else {
                 for favorite in favorites {
-                    if breedName == favorite.breedName {
-                        debugPrint("Image is already a favorite.")
+                    if breedName == favorite.breedName && imageUrl == favorite.imageUrl {
                         return true
                     }
                 }
@@ -64,19 +61,16 @@ class FavoriteDogModelManager {
     func addImageToFavorites(breedName: String?, imageUrl: String?) {
         guard let container = container else { return }
         guard let breedName = breedName, let imageUrl = imageUrl else {
-            debugPrint("Breed name or image URL is nil")
             return
         }
-        let isAlreadyFavorite = checkImageIsFavorite(breedName: breedName)
+        let isAlreadyFavorite = checkImageIsFavorite(breedName: breedName, imageUrl: imageUrl)
         guard isAlreadyFavorite == false else {
-            debugPrint("Image is already a favorite.")
             return
         }
         do {
             let favoriteDog = FavoriteDogModel(breedName: breedName, imageUrl: imageUrl)
             container.mainContext.insert(favoriteDog)
             try container.mainContext.save()
-            debugPrint("Added image to favorites")
         } catch {
             debugPrint("Error adding image to favorites: \(error)")
         }
@@ -85,7 +79,6 @@ class FavoriteDogModelManager {
     func removeImageFromFavorites(breedName: String?, imageUrl: String?) {
         guard let container = container else { return }
         guard let breedName = breedName, let imageUrl = imageUrl else {
-            debugPrint("Breed name or image URL is nil")
             return
         }
         do {
@@ -98,7 +91,6 @@ class FavoriteDogModelManager {
                     if breedName == favorite.breedName && imageUrl == favorite.imageUrl {
                         container.mainContext.delete(favorite)
                         try container.mainContext.save()
-                        debugPrint("Removed image from favorites")
                     }
                 }
             }

@@ -22,7 +22,8 @@ class DogImageViewController: UIViewController {
         super.viewDidAppear(animated)
         self.view.backgroundColor = .white
         let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
-            breedName: breedName
+            breedName: breedName,
+            imageUrl: imageUrl
         )
         breedNameLabel.title = breedName
         favoriteButton.title = isFavorite ? "Remove favorites" : "Add favorites"
@@ -75,7 +76,8 @@ class DogImageViewController: UIViewController {
     
     @IBAction func favoriteButtonTapped() {
         let isFavorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
-            breedName: breedName
+            breedName: breedName,
+            imageUrl: imageUrl
         )
         FavoriteDogModelManager.shared
             .setImageFavorite(
@@ -84,7 +86,8 @@ class DogImageViewController: UIViewController {
                 isFavorite: isFavorite
             )
         let favorite = FavoriteDogModelManager.shared.checkImageIsFavorite(
-            breedName: breedName
+            breedName: breedName,
+            imageUrl: imageUrl
         )
         favoriteButton.title = favorite ? "Remove favorites" : "Add favorites"
         if favorite == false {
