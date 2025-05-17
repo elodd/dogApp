@@ -67,6 +67,11 @@ class FavoriteDogModelManager {
             debugPrint("Breed name or image URL is nil")
             return
         }
+        let isAlreadyFavorite = checkImageIsFavorite(breedName: breedName)
+        guard isAlreadyFavorite == false else {
+            debugPrint("Image is already a favorite.")
+            return
+        }
         do {
             let favoriteDog = FavoriteDogModel(breedName: breedName, imageUrl: imageUrl)
             container.mainContext.insert(favoriteDog)

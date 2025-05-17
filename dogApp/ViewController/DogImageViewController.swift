@@ -92,6 +92,11 @@ class DogImageViewController: UIViewController {
                 .didRemoveDogFromFavoritesFromList(
                     favoriteDog: favoriteDogModel
                 )
+        } else {
+            favoriteDelegate?
+                .didAddDogToFavoritesFromList(
+                    favoriteDog: favoriteDogModel
+                )
         }
     }
     

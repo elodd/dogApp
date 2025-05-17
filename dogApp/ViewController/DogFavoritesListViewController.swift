@@ -10,6 +10,7 @@ import UIKit
 
 protocol DogFavoritesListViewControllerDelegate: AnyObject {
     func didRemoveDogFromFavoritesFromList(favoriteDog: FavoriteDogModel?)
+    func didAddDogToFavoritesFromList(favoriteDog: FavoriteDogModel?)
 }
 
 class DogFavoritesListViewController: UITableViewController {
@@ -79,5 +80,12 @@ extension DogFavoritesListViewController: DogFavoritesListViewControllerDelegate
                 tableView.reloadData()
             }
         }
+    }
+
+    func didAddDogToFavoritesFromList(favoriteDog: FavoriteDogModel?) {
+        guard let favoriteDog = favoriteDog else { return }
+        favoriteDogs.append(favoriteDog)
+        FavoriteDogModelManager.shared.addImageToFavorites(breedName: favoriteDog.breedName, imageUrl: favoriteDog.imageUrl)
+        tableView.reloadData()
     }
 }
